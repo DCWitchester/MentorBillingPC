@@ -351,6 +351,42 @@ INSERT INTO public.forme_juridice (cod, denumire) VALUES ('SNC', 'Societate come
 INSERT INTO public.forme_juridice (cod, denumire) VALUES ('SPI', 'Societate profesionala practicieni in insolventa');
 INSERT INTO public.forme_juridice (cod, denumire) VALUES ('SRL', 'Societate comerciala cu raspundere limitata');
 INSERT INTO public.forme_juridice (cod, denumire) VALUES ('URL', 'Intreprindere profesionala unipersonala cu raspundere limitata(IPURL)');
+
+-- Cote TVA --
+
+CREATE TABLE public.cote_tva(
+    id SERIAL NOT NULL PRIMARY KEY,
+    cota VARCHAR NOT NULL DEFAULT '',
+    tva NUMERIC(2) NOT NULL DEFAULT 0,
+    indice_casa_marcat VARCHAR NOT NULL DEFAULT 0,
+    cod VARCHAR NOT NULL DEFAULT '',
+    activ VARCHAR NOT NULL DEFAULT true
+);
+
+ALTER TABLE public.cote_tva OWNER TO postgres;
+
+INSERT INTO public.cota_tva(id,cota,tva,indice_casa_marcat,cod) VALUES(0,'0',0,'7','Neplatitor');
+INSERT INTO public.cota_tva(cota,tva,indice_casa_marcat,cod) VALUES('A',19,'1','Cota A');
+INSERT INTO public.cota_tva(cota,tva,indice_casa_marcat,cod) VALUES('B',9,'2','Cota B');
+INSERT INTO public.cota_tva(cota,tva,indice_casa_marcat,cod) VALUES('C',5,'3','Cota 5');
+INSERT INTO public.cota_tva(cota,tva,indice_casa_marcat,cod) VALUES('D',0,'4','Scutit');
+
+-- Metode Plata --
+
+CREATE TABLE public.metode_plata(
+    id SERIAL NOT NULL PRIMARY KEY,
+    metoda_plata VARCHAR NOT NULL DEFAULT '',
+    indice_casa_marcat VARCHAR NOT NULL DEFAULT 0,
+    activ VARCHAR NOT NULL DEFAULT true
+);
+
+ALTER TABLE public.metode_plata OWNER TO postgres;
+
+INSERT INTO public.metode_plata(id,metoda_plata,indice_casa_marcat) VALUES(0,'Numerar','0');
+INSERT INTO public.metode_plata(metoda_plata,indice_casa_marcat) VALUES('Card Credit','1');
+INSERT INTO public.metode_plata(metoda_plata,indice_casa_marcat) VALUES('Bonuri Masa','2');
+INSERT INTO public.metode_plata(metoda_plata,indice_casa_marcat) VALUES('Virament','3');
+
 -- #endregion --
 
 -- #region Structuri de Baza --
@@ -362,7 +398,6 @@ CREATE TABLE public.societati (
     nume VARCHAR DEFAULT '' NOT NULL,
     cif VARCHAR DEFAULT '' NOT NULL,
     nr_reg_com VARCHAR DEFAULT '' NOT NULL,
-    activ BOOLEAN DEFAULT true NOT NULL,
     adresa VARCHAR DEFAULT '' NOT NULL,
     mail VARCHAR DEFAULT '' NOT NULL,
     telefon VARCHAR DEFAULT '' NOT NULL,
@@ -376,6 +411,7 @@ CREATE TABLE public.societati (
 ALTER TABLE public.societati OWNER TO postgres;
 
 -- Utilizatori --
+
 CREATE TABLE public.utilizatori (
     id SERIAL NOT NULL PRIMARY KEY,
     nume_utilizator VARCHAR DEFAULT '' NOT NULL,
@@ -386,9 +422,258 @@ CREATE TABLE public.utilizatori (
     serie_buletin VARCHAR DEFAULT '' NOT NULL,
     numar_buletin VARCHAR DEFAULT '' NOT NULL,
     administrator BOOLEAN DEFAULT '' NOT NULL,
-    super_user BOOLEAN DEFAULT '' NOT NULL
+    super_user BOOLEAN DEFAULT '' NOT NULL,
+    activ BOOLEAN DEFAULT true NOT NULL
 );
 
-ALTER TABLE public.societati OWNER TO postgres;
+ALTER TABLE public.utilizatori OWNER TO postgres;
+
+-- Plaje --
+
+CREATE TABLE public.plaje(
+    id SERIAL NOT NULL PRIMARY KEY,
+    valoare_initiala INTEGER NOT NULL DEFAULT 0,
+    valoare_finala INTEGER NOT NULL DEFAULT 0,
+    valoare_curenta INTEGER NOT NULL DEFAULT 0,
+    activ BOOLEAN DEFAULT true NOT NULL
+);
+
+ALTER TABLE public.plaje OWNER TO postgres;
+
+COMMENT ON TABLE public.plaje IS 'Tabela va contine plajele pentru facturi si chitante cu o valoare initiala si finala';
+COMMENT ON COLUMN public.plaje.valoare_finala IS 'Valoare finala pentru plaja de facturare: Desi exita in D394 nu am gasit softuri care sa nu permita depasirea plajei';
+
+-- Setari Facturare --
+
+CREATE TABLE public.setari_facturare(
+    id SERIAL NOT NULL PRIMARY KEY,
+    pachet VARCHAR NOT NULL DEFAULT '',
+    gestiune VARCHAR NOT NULL DEFAULT '',
+    firma_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.firme(id),
+    plaja_facturare_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.plaje(id),
+    serie_factura VARCHAR NOT NULL DEFAULT '',
+    plaja_chitanta_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.plaje(id),
+    serie_chitanta VARCHAR NOT NULL DEFAULT '',
+    activ BOOLEAN DEFAULT true NOT NULL
+);
+
+ALTER TABLE public.setari_facturare OWNER TO postgres;
+
+COMMENT ON TABLE public.setari_facturare IS 'Tabela va contine setari necesare atat programului de facturare cat si trimiterii datelor in Evidenta primara.';
+
+-- Mijloace Transport --
+
+CREATE TABLE public.mijloace_transport(
+    id SERIAL NOT NULL PRIMARY KEY,
+    denumire VARCHAR NOT NULL DEFAULT '',
+    numar VARCHAR NOT NULL DEFAULT '',
+    activ BOOLEAN DEFAULT true NOT NULL
+);
+
+ALTER TABLE public.mijloace_transport OWNER TO postgres;
+
+COMMENT ON TABLE public.mijloace_transport IS 'Spre deosebire de Evidenta Primara vom tine Mijloacele de Transport separat pentru a avea un autocomplete';
+
+-- Delegati --
+
+CREATE TABLE public.delegati(
+    id SERIAL NOT NULL PRIMARY KEY,
+    cod_agent VARCHAR NOT NULL DEFAULT '',
+    nume VARCHAR NOT NULL DEFAULT '',
+    serie_buletin VARCHAR NOT NULL DEFAULT '',
+    numar_buletin VARCHAR NOT NULL DEFAULT '',
+    emitent VARCHAR NOT NULL DEFAULT '',
+    cnp VARCHAR NOT NULL DEFAULT '',
+    activ BOOLEAN DEFAULT true NOT NULL
+);
+
+ALTER TABLE public.delegati OWNER TO postgres;
+
+COMMENT ON TABLE public.delegati IS 'Echivalent la tabela de agenti din Evidenta Primara. Contine doar elementele ce se vor inscrie pe factura';
+COMMENT ON COLUMN public.delegati.cod_agent IS 'Echivalentul campului de agent din Evidenta Primara. Va putea fi autogenerat.';
+
+-- Produse --
+CREATE TABLE public.produse(
+    id SERIAL NOT NULL PRIMARY KEY,
+    cod_produs VARCHAR NOT NULL DEFAULT '',
+    cod_evidenta VARCHAR(4) NOT NULL DEFAULT '',
+    activ BOOLEAN NOT NULL DEFAULT true
+);
+
+ALTER TABLE public.produse OWNER TO postgres;
+
+COMMENT ON COLUMN public.produse.cod_produs IS 'Codul de produs va fi codul de produs de legatura cu MentorData';
+COMMENT ON COLUMN public.delegati.cod_agent IS 'Codul de produs va fi codul de produs de legatura cu Evidenta Primara';
+
+-- Produse Detalii --
+
+CREATE TABLE public.produse_detalii(
+    id SERIAL NOT NULL PRIMARY KEY,
+    denumire VARCHAR NOT NULL DEFAULT '',
+    unitate_masura VARCHAR NOT NULL DEFAULT '',
+    pret_unitar DOUBLE NOT NULL DEFAULT 0,
+    cota_tva_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.cote_tva(id),
+    produs_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.produse(id),
+    activ BOLLEAN NOT NULL DEFAULT true
+);
+
+ALTER TABLE public.produse_detalii OWNER TO postgres;
+
+-- Clienti --
+
+CREATE TABLE public.clienti(
+    id SERIAL NOT NULL PRIMARY KEY,
+    cod_client VARCAHR NOT NULL DEFAULT '',
+    cod_client_evidenta VARCHAR(4) NOT NULL DEFAULT '',
+    persoana_fizica BOOLEAN NOT NULL DEFAULT FALSE,
+    persoana_juridica BOOLEAN NOT NULL DEFAULT FALSE,
+    activ BOLLEAN NOT NULL DEFAULT TRUE
+);
+
+ALTER TABLE public.clienti OWNER TO postgres;
+
+-- Conturi Bancare --
+
+CREATE TABLE public.conturi_bancare(
+    id SERIAL NOT NULL PRIMARY KEY,
+    cont VARCHAR NOT NULL DEFAULT '',
+    banca VARCHAR NOT NULL DEFAULT '',
+    client_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.clienti(id),
+    societate_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.societati(id),
+    activ BOLLEAN NOT NULL DEFAULT TRUE
+);
+
+ALTER TABLE public.conturi_bancare OWNER TO postgres;
+
+-- Persoane fizice --
+
+CREATE TABLE public.persoane_fizice(
+    id SERIAL NOT NULL PRIMARY KEY,
+    client_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.clienti(id),
+    nume VARCHAR NOT NULL DEFAULT '',
+    prenume VARCHAR NOT NULL DEFAULT '',
+    cnp VARCHAR NOT NULL DEFAULT '',
+    serie_buletin VARCHAR NOT NULL DEFAULT '',
+    numar_buletin VARCHAR NOT NULL DEFAULT '',
+    emitent VARCHAR NOT NULL DEFAULT '',
+    tara_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.tari(id),
+    judet_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.judete(id),
+    activ BOLLEAN NOT NULL DEFAULT false
+);
+
+ALTER TABLE public.persoane_fizice OWNER TO postgres;
+
+-- Persoane Juridice --
+
+CREATE TABLE public.persoane_juridice(
+    id SERIAL NOT NULL PRIMARY KEY,
+    client_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.clienti(id),
+    denumire VARCHAR NOT NULL DEFAULT '',
+    forma_juridica_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.forme_juridice(id),
+    cod_fiscal VARCHAR NOT NULL DEFAULT '',
+    sediu VARCHAR NOT NULL DEFAULT '',
+    judet_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.judete(id),
+    tara_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.tari(id),
+    activ BOOLEAN NOT NULL DEFAULT false
+);
+
+ALTER TABLE public.persoane_juridice OWNER TO postgres;
+
+
+-- Facturi --
+
+CREATE TABLE public.facturi(
+    id SERIAL NOT NULL PRIMARY KEY,
+    societate_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.societati(id),
+    client_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.clienti(id),
+    utilizator_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.utilizatori(id),
+    delegat_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.delegati(id),
+    mijloc_transport_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.mijloace_transport(id),
+    serie_factura VARCHAR NOT NULL DEFAULT ''
+    numar_factura INTEGER NOT NULL DEFAULT 0,
+    data_factura DATE NOT NULL DEFAULT 'now'::DATE,
+    data_scadenta DATE NOT NULL DEFAULT 'now'::DATE,
+    data_expediere DATE NOT NULL DEFAULT 'now'::DATE,
+    numar_aviz INTEGER NOT NULL DEFAULT 0
+);
+
+ALTER TABLE public.facturi OWNER TO postgres;
+
+-- Facturi Detalii --
+
+CREATE TABLE public.facturi_detalii(
+    id SERIAL NOT NULL PRIMARY KEY,
+    factura_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.facturi(id),
+    produs_detalii_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.produse_detalii(id),
+    cantitate DOUBLE NOT NULL DEFAULT 0
+);
+
+ALTER TABLE public.facturi_detalii OWNER TO postgres;
+
+-- Bonuri Fiscale --
+
+CREATE TABLE public.bonuri_fiscale(
+    id SERIAL NOT NULL PRIMARY KEY,
+    numar INTEGER NOT NULL DEFAULT 0,
+    text_suplimentar VARCHAR NOT NULL DEFAULT '',
+    suma DOUBLE NOT NULL DEFAULT 0,
+    factura_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.facturi(id)
+);
+
+ALTER TABLE public.bonuri_fiscale OWNER TO postgres;
+
+-- Bonuri Fiscale Detalii --
+
+CREATE TABLE bonuri_fiscale_detalii(
+    id SERIAL NOT NULL PRIMARY KEY,
+    bon_fiscal_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.bonuri_fiscale(id),
+    metoda_plata_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.metode_plata(id),
+    suma DOUBLE NOT NULL DEAFULT 0
+);
+
+ALTER TABLE public.bonuri_fiscale_detalii OWNER TO postgres;
+
+-- Chitante --
+CREATE TABLE chitante(
+    id SERIAL NOT NULL PRIMARY KEY,
+    client_id INTEGER NOT NULL DEFAULT 0 REFERENCES clienti(id),
+    serie VARCHAR NOT NULL DEFAULT '',
+    numar INTEGER NOT NULL DEFAULT 0,
+    factura_id INTEGER NOT NULL DEFAULT 0 REFERENCES facturi(id),
+    firma_id INTEGER NOT NULL DEFAULT 0 REFERENCES firme(id),
+    utilizator_id INTEGER NOT NULL DEFAULT 0 REFERENCES utilizatori(id),
+    data_chitanta DATE NOT NULL DEFAULT 'now'::DATE,
+    suma DOUBLE NOT NULL DEFAULT 0
+);
+
+ALTER TABLE public.chitante OWNER TO postgres;
 
 -- #endregion
+
+-- #region Tabele de Legatura
+
+-- Setari Facturare Utilizatori --
+
+CREATE TABLE public.setari_facturare_utilizatori(
+    id SERIAL NOT NULL PRIMARY KEY,
+    setari_facturare_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.setari_facturare(id),
+    utilizator_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.utilizatori(id)
+);
+
+ALTER TABLE public.setari_facturare_utilizatori OWNER TO postgres;
+
+COMMENT ON TABLE public.setari_facturare_utilizatori IS 'Un grup de setari poate fi folosit de unul sau mai multi utilizatori.';
+
+-- Delegati Mijloace Transport --
+
+CREATE TABLE public.delegati_mijloace_transport(
+    id SERIAL NOT NULL PRIMARY KEY,
+    delegat_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.delegat(id),
+    mijloc_transport_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.mijloace_transport(id)
+);
+
+ALTER TABLE public.delegati_mijloace_transport OWNER TO postgres;
+
+COMMENT ON TABLE public.delegati_mijloace_transport IS 'Tabela de lagatura necesara doar pentru trimiterea in Evidenta Primara a agentilor, respectiv mijloacelor de transport.';
+
+--#endregion
