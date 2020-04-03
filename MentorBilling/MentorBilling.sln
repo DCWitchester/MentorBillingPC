@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.29911.84
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MentorBilling", "MentorBilling.csproj", "{B8950EFD-E237-4DD4-9C1B-5B97B3B49B01}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FunctionLibrary", "..\FunctionLibrary\FunctionLibrary.fsproj", "{E45FA1C1-AE41-4F7B-8AE4-64A90B25B4D8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{B8950EFD-E237-4DD4-9C1B-5B97B3B49B01}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8950EFD-E237-4DD4-9C1B-5B97B3B49B01}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8950EFD-E237-4DD4-9C1B-5B97B3B49B01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E45FA1C1-AE41-4F7B-8AE4-64A90B25B4D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E45FA1C1-AE41-4F7B-8AE4-64A90B25B4D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E45FA1C1-AE41-4F7B-8AE4-64A90B25B4D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E45FA1C1-AE41-4F7B-8AE4-64A90B25B4D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
