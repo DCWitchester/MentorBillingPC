@@ -90,7 +90,7 @@ namespace MentorBilling.Settings
         /// <summary>
         /// this function will deconstruct a connection string and 
         /// </summary>
-        /// <param name="connectionString"></param>
+        /// <param name="connectionString">the connection string</param>
         public void DeconstructConnectionString(String connectionString)
         {
             foreach (String connectionPropertyString in connectionString.Trim().Split(';'))
@@ -115,6 +115,11 @@ namespace MentorBilling.Settings
                         break;
                 }
             }
+        }
+
+        public void RetriveSettingsFromFile()
+        {
+
         }
     }
 }
