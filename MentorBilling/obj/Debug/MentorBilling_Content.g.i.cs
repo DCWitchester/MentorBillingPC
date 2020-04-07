@@ -10,5 +10,6 @@
 
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("databasecontrol/sqlfiles/databasecreator.sql")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("databasecontrol/sqlfiles/databasestrucutre.sql")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("databasecontrol/sqlfiles/clientcontroller.sql")]
 
 

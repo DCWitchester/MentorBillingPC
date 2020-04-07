@@ -235,6 +235,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Messages\MessageForm.xaml.cs">
+      <DependentUpon>MessageForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Messages\Messages.cs" />
     <Compile Include="Miscellaneous\Encryption.cs" />
     <Compile Include="Settings\DatabaseConnectionSettings.cs" />
     <Compile Include="Settings\GeneralFunctions.cs" />
@@ -250,6 +254,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Messages\MessageForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ProgramResources\NumericSpinner.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -286,12 +294,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Messages\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="DatabaseControl\SqlFiles\DatabaseCreator.sql" />
     <Content Include="DatabaseControl\SqlFiles\DatabaseStrucutre.sql" />
+    <Content Include="DatabaseControl\SqlFiles\ClientController.sql" />
     <Resource Include="MENTOR.ico" />
     <Resource Include="ProgramResources\Images\error.jpg" />
     <Resource Include="ProgramResources\Images\info.jpg" />

@@ -44,6 +44,7 @@ K:\Projects\Repository\MentorBilling\MentorBilling\bin\Debug\zh-Hans\FSharp.Core
 K:\Projects\Repository\MentorBilling\MentorBilling\bin\Debug\zh-Hant\FSharp.Core.resources.dll
 K:\Projects\Repository\MentorBilling\MentorBilling\obj\Debug\MentorBilling.csprojAssemblyReference.cache
 K:\Projects\Repository\MentorBilling\MentorBilling\obj\Debug\MainWindow.g.cs
+K:\Projects\Repository\MentorBilling\MentorBilling\obj\Debug\Messages\MessageForm.g.cs
 K:\Projects\Repository\MentorBilling\MentorBilling\obj\Debug\ProgramResources\NumericSpinner.g.cs
 K:\Projects\Repository\MentorBilling\MentorBilling\obj\Debug\App.g.cs
 K:\Projects\Repository\MentorBilling\MentorBilling\obj\Debug\MentorBilling_Content.g.cs
@@ -51,6 +52,7 @@ K:\Projects\Repository\MentorBilling\MentorBilling\obj\Debug\MentorBilling_Marku
 K:\Projects\Repository\MentorBilling\MentorBilling\obj\Debug\MentorBilling_MarkupCompile.lref
 K:\Projects\Repository\MentorBilling\MentorBilling\obj\Debug\App.baml
 K:\Projects\Repository\MentorBilling\MentorBilling\obj\Debug\MainWindow.baml
+K:\Projects\Repository\MentorBilling\MentorBilling\obj\Debug\Messages\MessageForm.baml
 K:\Projects\Repository\MentorBilling\MentorBilling\obj\Debug\ProgramResources\NumericSpinner.baml
 K:\Projects\Repository\MentorBilling\MentorBilling\obj\Debug\MentorBilling.g.resources
 K:\Projects\Repository\MentorBilling\MentorBilling\obj\Debug\MentorBilling.Properties.Resources.resources
