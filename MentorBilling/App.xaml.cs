@@ -17,6 +17,7 @@ namespace MentorBilling
         void ProgramStartup(object sender, StartupEventArgs e)
         {
             SetCultureInfo();
+            Starter.Start();
         }
         /// <summary>
         /// this function will set the CultureInfo to en-IN so that windows CultureInfo will not affect the program

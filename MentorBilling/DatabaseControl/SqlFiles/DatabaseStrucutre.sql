@@ -365,11 +365,11 @@ CREATE TABLE public.cote_tva(
 
 ALTER TABLE public.cote_tva OWNER TO postgres;
 
-INSERT INTO public.cota_tva(id,cota,tva,indice_casa_marcat,cod) VALUES(0,'0',0,'7','Neplatitor');
-INSERT INTO public.cota_tva(cota,tva,indice_casa_marcat,cod) VALUES('A',19,'1','Cota A');
-INSERT INTO public.cota_tva(cota,tva,indice_casa_marcat,cod) VALUES('B',9,'2','Cota B');
-INSERT INTO public.cota_tva(cota,tva,indice_casa_marcat,cod) VALUES('C',5,'3','Cota 5');
-INSERT INTO public.cota_tva(cota,tva,indice_casa_marcat,cod) VALUES('D',0,'4','Scutit');
+INSERT INTO public.cote_tva(id,cota,tva,indice_casa_marcat,cod) VALUES(0,'0',0,'7','Neplatitor');
+INSERT INTO public.cote_tva(cota,tva,indice_casa_marcat,cod) VALUES('A',19,'1','Cota A');
+INSERT INTO public.cote_tva(cota,tva,indice_casa_marcat,cod) VALUES('B',9,'2','Cota B');
+INSERT INTO public.cote_tva(cota,tva,indice_casa_marcat,cod) VALUES('C',5,'3','Cota 5');
+INSERT INTO public.cote_tva(cota,tva,indice_casa_marcat,cod) VALUES('D',0,'4','Scutit');
 
 -- Metode Plata --
 
@@ -421,8 +421,8 @@ CREATE TABLE public.utilizatori (
     cod_numeric_personal VARCHAR DEFAULT '' NOT NULL,
     serie_buletin VARCHAR DEFAULT '' NOT NULL,
     numar_buletin VARCHAR DEFAULT '' NOT NULL,
-    administrator BOOLEAN DEFAULT '' NOT NULL,
-    super_user BOOLEAN DEFAULT '' NOT NULL,
+    administrator BOOLEAN DEFAULT false NOT NULL,
+    super_user BOOLEAN DEFAULT false NOT NULL,
     activ BOOLEAN DEFAULT true NOT NULL
 );
 
@@ -449,7 +449,7 @@ CREATE TABLE public.setari_facturare(
     id SERIAL NOT NULL PRIMARY KEY,
     pachet VARCHAR NOT NULL DEFAULT '',
     gestiune VARCHAR NOT NULL DEFAULT '',
-    firma_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.firme(id),
+    firma_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.societati(id),
     plaja_facturare_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.plaje(id),
     serie_factura VARCHAR NOT NULL DEFAULT '',
     plaja_chitanta_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.plaje(id),
@@ -511,10 +511,10 @@ CREATE TABLE public.produse_detalii(
     id SERIAL NOT NULL PRIMARY KEY,
     denumire VARCHAR NOT NULL DEFAULT '',
     unitate_masura VARCHAR NOT NULL DEFAULT '',
-    pret_unitar DOUBLE NOT NULL DEFAULT 0,
+    pret_unitar DOUBLE PRECISION NOT NULL DEFAULT 0,
     cota_tva_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.cote_tva(id),
     produs_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.produse(id),
-    activ BOLLEAN NOT NULL DEFAULT true
+    activ BOOLEAN NOT NULL DEFAULT true
 );
 
 ALTER TABLE public.produse_detalii OWNER TO postgres;
@@ -523,11 +523,11 @@ ALTER TABLE public.produse_detalii OWNER TO postgres;
 
 CREATE TABLE public.clienti(
     id SERIAL NOT NULL PRIMARY KEY,
-    cod_client VARCAHR NOT NULL DEFAULT '',
+    cod_client VARCHAR NOT NULL DEFAULT '',
     cod_client_evidenta VARCHAR(4) NOT NULL DEFAULT '',
     persoana_fizica BOOLEAN NOT NULL DEFAULT FALSE,
     persoana_juridica BOOLEAN NOT NULL DEFAULT FALSE,
-    activ BOLLEAN NOT NULL DEFAULT TRUE
+    activ BOOLEAN NOT NULL DEFAULT TRUE
 );
 
 ALTER TABLE public.clienti OWNER TO postgres;
@@ -540,7 +540,7 @@ CREATE TABLE public.conturi_bancare(
     banca VARCHAR NOT NULL DEFAULT '',
     client_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.clienti(id),
     societate_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.societati(id),
-    activ BOLLEAN NOT NULL DEFAULT TRUE
+    activ BOOLEAN NOT NULL DEFAULT TRUE
 );
 
 ALTER TABLE public.conturi_bancare OWNER TO postgres;
@@ -558,7 +558,7 @@ CREATE TABLE public.persoane_fizice(
     emitent VARCHAR NOT NULL DEFAULT '',
     tara_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.tari(id),
     judet_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.judete(id),
-    activ BOLLEAN NOT NULL DEFAULT false
+    activ BOOLEAN NOT NULL DEFAULT false
 );
 
 ALTER TABLE public.persoane_fizice OWNER TO postgres;
@@ -589,7 +589,7 @@ CREATE TABLE public.facturi(
     utilizator_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.utilizatori(id),
     delegat_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.delegati(id),
     mijloc_transport_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.mijloace_transport(id),
-    serie_factura VARCHAR NOT NULL DEFAULT ''
+    serie_factura VARCHAR NOT NULL DEFAULT '',
     numar_factura INTEGER NOT NULL DEFAULT 0,
     data_factura DATE NOT NULL DEFAULT 'now'::DATE,
     data_scadenta DATE NOT NULL DEFAULT 'now'::DATE,
@@ -605,7 +605,7 @@ CREATE TABLE public.facturi_detalii(
     id SERIAL NOT NULL PRIMARY KEY,
     factura_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.facturi(id),
     produs_detalii_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.produse_detalii(id),
-    cantitate DOUBLE NOT NULL DEFAULT 0
+    cantitate DOUBLE PRECISION NOT NULL DEFAULT 0
 );
 
 ALTER TABLE public.facturi_detalii OWNER TO postgres;
@@ -616,7 +616,7 @@ CREATE TABLE public.bonuri_fiscale(
     id SERIAL NOT NULL PRIMARY KEY,
     numar INTEGER NOT NULL DEFAULT 0,
     text_suplimentar VARCHAR NOT NULL DEFAULT '',
-    suma DOUBLE NOT NULL DEFAULT 0,
+    suma DOUBLE PRECISION NOT NULL DEFAULT 0,
     factura_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.facturi(id)
 );
 
@@ -624,26 +624,26 @@ ALTER TABLE public.bonuri_fiscale OWNER TO postgres;
 
 -- Bonuri Fiscale Detalii --
 
-CREATE TABLE bonuri_fiscale_detalii(
+CREATE TABLE public.bonuri_fiscale_detalii(
     id SERIAL NOT NULL PRIMARY KEY,
     bon_fiscal_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.bonuri_fiscale(id),
     metoda_plata_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.metode_plata(id),
-    suma DOUBLE NOT NULL DEAFULT 0
+    suma DOUBLE PRECISION NOT NULL DEFAULT 0
 );
 
 ALTER TABLE public.bonuri_fiscale_detalii OWNER TO postgres;
 
 -- Chitante --
-CREATE TABLE chitante(
+CREATE TABLE public.chitante(
     id SERIAL NOT NULL PRIMARY KEY,
-    client_id INTEGER NOT NULL DEFAULT 0 REFERENCES clienti(id),
+    client_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.clienti(id),
     serie VARCHAR NOT NULL DEFAULT '',
     numar INTEGER NOT NULL DEFAULT 0,
-    factura_id INTEGER NOT NULL DEFAULT 0 REFERENCES facturi(id),
-    firma_id INTEGER NOT NULL DEFAULT 0 REFERENCES firme(id),
-    utilizator_id INTEGER NOT NULL DEFAULT 0 REFERENCES utilizatori(id),
+    factura_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.facturi(id),
+    societate_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.societati(id),
+    utilizator_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.utilizatori(id),
     data_chitanta DATE NOT NULL DEFAULT 'now'::DATE,
-    suma DOUBLE NOT NULL DEFAULT 0
+    suma DOUBLE PRECISION NOT NULL DEFAULT 0
 );
 
 ALTER TABLE public.chitante OWNER TO postgres;
@@ -668,7 +668,7 @@ COMMENT ON TABLE public.setari_facturare_utilizatori IS 'Un grup de setari poate
 
 CREATE TABLE public.delegati_mijloace_transport(
     id SERIAL NOT NULL PRIMARY KEY,
-    delegat_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.delegat(id),
+    delegat_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.delegati(id),
     mijloc_transport_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.mijloace_transport(id)
 );
 

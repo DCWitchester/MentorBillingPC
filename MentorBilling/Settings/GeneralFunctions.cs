@@ -3,11 +3,28 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.NetworkInformation;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MentorBilling.Settings
 {
+    static class ControlValues
+    {
+        public static String GetMacAdress()
+        {
+            return NetworkInterface.GetAllNetworkInterfaces().Where(n => n.OperationalStatus == OperationalStatus.Up && n.NetworkInterfaceType != NetworkInterfaceType.Loopback)
+                .OrderByDescending(n => n.NetworkInterfaceType == NetworkInterfaceType.Ethernet || n.NetworkInterfaceType == NetworkInterfaceType.Wireless80211)
+                .Select(n => n.GetPhysicalAddress()).FirstOrDefault().ToString();
+        }
+        public static readonly String GetProgramCode = "MB01";
+        public static readonly String GetControllerConnectionString = "Host = 5.2.228.239; Port = 26662; Database = MentorClientController; User Id = postgres; Password = pgsql";
+        public static String GetProgramVersion()
+        {
+            return Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        }
+    }
     class GeneralFunctions
     {
         #region Settings static properties
@@ -18,7 +35,8 @@ namespace MentorBilling.Settings
         {
             none = 0,
             DatabaseConnection,
-            EncryptionPassword
+            EncryptionPassword,
+            Licence
         }
         /// <summary>
         /// the path towards the settingsFolder
@@ -63,6 +81,7 @@ namespace MentorBilling.Settings
         {
             settingsFiles.Add(new SettingsFile(SettingsType.DatabaseConnection, SettingsFolder + "ConnectionSettings.ini"));
             settingsFiles.Add(new SettingsFile(SettingsType.EncryptionPassword, SettingsFolder + "EncryptionPassword.ini"));
+            settingsFiles.Add(new SettingsFile(SettingsType.EncryptionPassword, SettingsFolder + "Licence.ini"));
         }
         /// <summary>
         /// this function will create a settings folder if it doesn't exist

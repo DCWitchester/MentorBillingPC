@@ -235,13 +235,24 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controller\ControllerLogin.xaml.cs">
+      <DependentUpon>ControllerLogin.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Messages\MessageForm.xaml.cs">
       <DependentUpon>MessageForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="Messages\Messages.cs" />
     <Compile Include="Miscellaneous\Encryption.cs" />
+    <Compile Include="Miscellaneous\GeneralFunction.cs" />
+    <Compile Include="ProgramResources\ParentHood.cs" />
     <Compile Include="Settings\DatabaseConnectionSettings.cs" />
     <Compile Include="Settings\GeneralFunctions.cs" />
+    <Compile Include="Settings\Licence.cs" />
+    <Compile Include="Starter.cs" />
+    <Page Include="Controller\ControllerLogin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -299,6 +310,14 @@
     <Content Include="DatabaseControl\SqlFiles\DatabaseCreator.sql" />
     <Content Include="DatabaseControl\SqlFiles\DatabaseStrucutre.sql" />
     <Content Include="DatabaseControl\SqlFiles\ClientController.sql" />
+    <Resource Include="ProgramResources\Images\background.jpg" />
+    <Resource Include="ProgramResources\Images\close.jpg" />
+    <Resource Include="ProgramResources\Images\load.gif" />
+    <Resource Include="ProgramResources\Images\loading.gif" />
+    <Resource Include="ProgramResources\Images\MENTOR.ico" />
+    <Resource Include="ProgramResources\Images\MentorSigla.gif" />
+    <Resource Include="ProgramResources\Images\PassInvisible.jpg" />
+    <Resource Include="ProgramResources\Images\PassVisible.jpg" />
     <Resource Include="MENTOR.ico" />
     <Resource Include="ProgramResources\Images\error.jpg" />
     <Resource Include="ProgramResources\Images\info.jpg" />

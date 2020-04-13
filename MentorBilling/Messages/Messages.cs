@@ -43,13 +43,13 @@ namespace MentorBilling.Messages
     }
     class Messages
     {
-        public static void MissingSettingsError()
+        public static void MissingSettingsError(String settingsFile)
         {
             //we call the Reinitialization of the unload variable before launching the form.
             MessageSettings.ReinitializeFormUnload();
             MessageForm newMessage = new MessageForm();
             newMessage.msgTitle.Content = "Eroare Lipsa Setari";
-            newMessage.msgMessage.Content = "Fisierul de setari lipseste: ";
+            newMessage.msgMessage.Content = "Fisierul de setari lipseste: "+settingsFile;
             //change the background image
             newMessage.msgBackground.ImageSource = new BitmapImage(new Uri(@"pack://Application:,,," + MessageImages.warningImage));
             //deactivate the cancel button

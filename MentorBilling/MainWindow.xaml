@@ -5,8 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MentorBilling"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+           Title="MainWindow" Height="768" Width="1024" WindowState="Maximized" WindowStyle="None" >
+    <Window.Background>
+        <ImageBrush x:Name="GlobalBackground" ImageSource="pack://Application:,,,/ProgramResources\Images\background.jpg" Stretch="UniformToFill"/>
+    </Window.Background>
     <Grid>
-        
+        <Label Content="{Binding CurrentTime}" HorizontalAlignment="Right" VerticalAlignment="Top" FontFamily="Consolas" FontSize="20" Margin="0,10,10,0" Foreground="White"/>
+        <Label x:Name="lblUser" HorizontalAlignment="Right" VerticalAlignment="Top" FontFamily="Consolas" FontSize="20" Margin="0,30,10,0" Foreground="White"/>
+        <Grid  Width="512" Height="150" HorizontalAlignment="Left" VerticalAlignment="Bottom" MouseUp="CallHome">
+            <Grid.Background>
+                <ImageBrush  ImageSource="pack://Application:,,,/ProgramResources\Images\MentorSigla.gif"/>
+            </Grid.Background>
+        </Grid>
     </Grid>
 </Window>

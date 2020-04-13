@@ -1,4 +1,4 @@
-﻿ALTER DATABASE "ClientController" OWNER TO postgres;
+﻿ALTER DATABASE "MentorClientController" OWNER TO postgres;
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -38,21 +38,21 @@ COMMENT ON COLUMN public.clienti.nume_utilizator IS 'Numele de utilizator este u
 COMMENT ON COLUMN public.clienti.parola_autogenerata IS 'Parola autogenerata va fi folosita pentru utilizatorii care si-au pierdut contul';
 COMMENT ON COLUMN public.clienti.data_creere IS 'Data creerii utilizatorului. Va fi o perioada de gratie in care utilizatorul va putea lucra fara a se activa contul';
 
-INSERT INTO public.clienti(id,denumire,nume_utilizator,parola)  VALUES()
-
 CREATE TABLE public.programe
 (
 	id SERIAL PRIMARY KEY,
     denumire VARCHAR NOT NULL DEFAULT '',
     descriere VARCHAR NOT NULL DEFAULT '',
-    cod_program NOT NULL DEFAULT '' UNIQUE,
-	activ BOOLEAN NOT NULL DEFAULT false,
+    cod_program VARCHAR NOT NULL DEFAULT '' UNIQUE,
+	activ BOOLEAN NOT NULL DEFAULT false
 );
 
 ALTER TABLE public.programe OWNER TO postgres;
 
 COMMENT ON TABLE public.programe IS 'Tabela va contine lista de programe care sunt comercializate de firma Mentor';
 COMMENT ON COLUMN public.programe.cod_program IS 'Codul unic atribuit fiecatui program de catre firma Mentor';
+
+INSERT INTO public.programe(denumire,descriere,cod_program) VALUES('Mentor Billing', 'Program de facturare facut de Mentor Constanta','MB01');
 
 CREATE TABLE public.versiuni
 (
@@ -61,38 +61,38 @@ CREATE TABLE public.versiuni
     versiune VARCHAR NOT NULL DEFAULT '',
     link_versiune VARCHAR NOT NULL DEFAULT '',
     text_modificari VARCHAR NOT NULL DEFAULT '',
-    programe_id integer NOT NULL REFERENCES public.programe (id),
+    programe_id integer NOT NULL DEFAULT 0 REFERENCES public.programe (id),
     versiune_publica boolean NOT NULL DEFAULT false,
-    cod_versiune NOT NULL DEFAULT '',
-	UNIQUE(versiune,porgram_id)
+    cod_versiune VARCHAR NOT NULL DEFAULT '',
+	UNIQUE(versiune,programe_id)
 );
 
 ALTER TABLE public.versiuni OWNER TO postgres;
 
 COMMENT ON TABLE public.versiuni IS 'Tabela va contine toate versiunile aferente programelor firmei Mentor';
 COMMENT ON COLUMN public.versiuni.cod_versiune IS 'Doar versiunile centrale vor avea un cod unic de versiune';
-COMMENT ONT COLUMN public.versiune_publica IS 'Doar versiunile publice vor fi preluate de catre clientii Mentor';
+COMMENT ON COLUMN public.versiuni.versiune_publica IS 'Doar versiunile publice vor fi preluate de catre clientii Mentor';
 
 CREATE TABLE public.clienti_versiuni
 (
 	id SERIAL PRIMARY KEY,
-	clienti_id integer NOT NULL REFERENCES public.clienti (id),
-	veriuni_id integer NOT NULL REFERENCES public.versiuni (id),
+	clienti_id integer DEFAULT 0 NOT NULL REFERENCES public.clienti (id),
+	veriuni_id integer DEFAULT 0 NOT NULL REFERENCES public.versiuni (id),
 	data_versiune timestamp without time zone NOT NULL DEFAULT ('now'::text)::timestamp without time zone,
 	activ BOOLEAN NOT NULL DEFAULT true
 );
 
-ALTER TABLE public.clienti_programe OWNER TO postgres;
+ALTER TABLE public.clienti_versiuni OWNER TO postgres;
 
-COMMENT ON TABLE public.clienti_programe IS 'Tabela va contine toate actualizarile de programe la clienti';
+COMMENT ON TABLE public.clienti_versiuni IS 'Tabela va contine toate actualizarile de programe la clienti';
 
 CREATE TABLE public.licente
 (
 	id SERIAL PRIMARY KEY,
-	clienti_versiuni_id integer NOT NULL REFERENCES public.clienti_versiuni (id),
+	clienti_versiuni_id integer DEFAULT 0 NOT NULL REFERENCES public.clienti_versiuni (id),
 	data_actualizare timestamp without time zone NOT NULL DEFAULT ('now'::text)::timestamp without time zone,
-	perioada integer NOT NULL DEFAULT '',
-	cod_licenta VARCAHR NOT NULL DEFAULT '',
+	perioada integer DEFAULT 0 NOT NULL,
+	cod_licenta VARCHAR NOT NULL DEFAULT '',
 	activ BOOLEAN NOT NULL DEFAULT true
 );
 
