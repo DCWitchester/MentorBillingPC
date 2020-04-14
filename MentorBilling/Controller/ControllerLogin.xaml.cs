@@ -23,5 +23,25 @@ namespace MentorBilling.Controller
         {
             InitializeComponent();
         }
+        #region Close Form
+        /// <summary>
+        /// this function will be the main close event for the forms cancel button
+        /// </summary>
+        /// <param name="sender">btnCancel</param>
+        /// <param name="e">the Click event</param>
+        void CancelForm(object sender, RoutedEventArgs e)
+        {
+            Miscellaneous.GeneralFunction.CloseProgram();
+        }
+        /// <summary>
+        /// this function will be the main close event for the forms close button
+        /// </summary>
+        /// <param name="sender">Close Elipse</param>
+        /// <param name="e">the MouseUp event</param>
+        void CancelForm(object sender, MouseButtonEventArgs e)
+        {
+            Miscellaneous.GeneralFunction.CloseProgram();
+        }
+        #endregion
     }
 }

@@ -4,14 +4,6 @@ open System
 open Npgsql.FSharp
 open Npgsql.FSharp.OptionWorkflow
 
-module DatabaseObjects = 
-    type User ={
-        ID : int32
-        Username : string
-        Password : string
-        Name : string
-        }
-
 module DatabaseConection =
 
     //the qualifier acces entrace
@@ -55,22 +47,40 @@ module DatabaseConection =
     let mutable connection = defaultConnectionSettings
 
     ///this fucntion will set the connection to one based on the given connection string
-    let setConnectionFromUri (uri:string) = connection <- Sql.fromUriToConfig(Uri uri)
+    let setConnectionFromUri (uri:String) = connection <- Sql.fromUriToConfig(Uri uri)
+    let createConnectionFromUri (uri:String) = Sql.fromUriToConfig(Uri uri)
 
+module ControllerFunctions =
 
-    module DatabaseFunctions = 
-        let insertUser(connectionString : Sql.ConnectionStringBuilder, user: DatabaseObjects.User) =
-            connectionString 
-            |> Sql.connectFromConfig
-            |> Sql.query "INSERT INTO utilizatori(nume_utilizator,parola,denumire_utilizator) 
-                                VALUES(@numeUtilizator,@parola,@denumireUtilizator) 
-                                ON CONFLICT utilizatori_nume_utilizator_key 
-                                DO UPDATE SET parola = @parola, denumire_utilizator = @denumireUtilizator, activ = true"
-            |> Sql.parameters
-                [
-                    "numeUtilizator", Sql.Value user.Username
-                    "parola", Sql.Value user.Password
-                    "denumire_utilizator", Sql.Value user.Name
-                ]
-            |> Sql.prepare
-            |> Sql.executeNonQuery
+    module DatabaseObjects = 
+        type Licence ={
+            UserID : Int32
+            LicenceUpdate : String
+            LicencePeriod : String
+            ProgramID : Int32
+            }
+    
+    let verifyUser(connectionString : Sql.ConnectionStringBuilder, username : String, password : String) : bool = 
+        connectionString
+        |> Sql.connectFromConfig
+        |> Sql.query "SELECT COUNT(*) 
+                        FROM clienti
+                        WHERE nume_utilizator = @username AND (parola = @password OR parola_autogenerata = @password)"
+        |> Sql.parameters
+            [
+                "username", Sql.Value username
+                "password", Sql.Value password
+            ]
+        |> Sql.prepare
+        |> Sql.executeScalar
+        |> Sql.toInt
+        |> function
+            | value -> 
+                if(value>(int32 0))
+                    then true
+                    else false
+
+    let retrieveUserLicence(connectionString : Sql.ConnectionStringBuilder, licence : DatabaseObjects.Licence, programCode: String) = 
+        connectionString
+        |> Sql.connectFromConfig
+        |> Sql.query "SELECT clienti.id"

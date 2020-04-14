@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="ControllerFunctions.fs" />
     <Compile Include="DatabaseConection.fs" />
     <Compile Include="Library.fs" />
   </ItemGroup>

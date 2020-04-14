@@ -1,0 +1,18 @@
+﻿<Window x:Class="MentorBilling.Miscellaneous.MiscellaneousWindows.WaitMessage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MentorBilling.Miscellaneous.MiscellaneousWindows"
+        xmlns:gif="http://wpfanimatedgif.codeplex.com"
+        Title="WaitMessage" Height="300" Width="300" WindowStyle="None" WindowStartupLocation="CenterScreen" Topmost="True" ResizeMode="NoResize" Cursor="None" ShowInTaskbar="False">
+    <Grid>
+        <Grid Height="60" VerticalAlignment="Top" HorizontalAlignment="Stretch" Background="#2d2d2d">
+            <Label Foreground="White" Content="Asteptati..." FontSize="25" FontFamily="News Gothic MT" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0,0,0"/>
+        </Grid>
+        <Grid Height="200"  VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,30">
+            <Image gif:ImageBehavior.AnimatedSource="pack://Application:,,,/ProgramResources\Images\loading.gif" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+        </Grid>
+        <Label x:Name="lblMessage" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" FontFamily="News Gothic MT" FontSize="13" Margin="0,0,0,15"/>
+    </Grid>
+</Window>

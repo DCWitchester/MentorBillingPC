@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 K:\Projects\Repository\MentorBilling\MentorBilling\App.xaml
-41202724651
+5960717080
 3-929363483
-171162061626
-135465825872
-Controller\ControllerLogin.xaml;MainWindow.xaml;Messages\MessageForm.xaml;ProgramResources\NumericSpinner.xaml;
+201354078188
+1361930307102
+Controller\ControllerLogin.xaml;MainWindow.xaml;Messages\MessageForm.xaml;Miscellaneous\MiscellaneousWindows\WaitMessage.xaml;ProgramResources\NumericSpinner.xaml;
 
-True
+False
 

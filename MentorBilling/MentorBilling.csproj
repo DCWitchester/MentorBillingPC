@@ -229,6 +229,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WpfAnimatedGif, Version=2.0.0.0, Culture=neutral, PublicKeyToken=9e7cd3b544a090dc, processorArchitecture=MSIL">
+      <HintPath>packages\WpfAnimatedGif.2.0.0\lib\net40\WpfAnimatedGif.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -238,12 +241,17 @@
     <Compile Include="Controller\ControllerLogin.xaml.cs">
       <DependentUpon>ControllerLogin.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GlobalObjects.cs" />
     <Compile Include="Messages\MessageForm.xaml.cs">
       <DependentUpon>MessageForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="Messages\Messages.cs" />
     <Compile Include="Miscellaneous\Encryption.cs" />
     <Compile Include="Miscellaneous\GeneralFunction.cs" />
+    <Compile Include="Miscellaneous\MiscellaneousWindows\WaitMessage.xaml.cs">
+      <DependentUpon>WaitMessage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Miscellaneous\MiscellaneousWindows\WaitMessageDelegate.cs" />
     <Compile Include="ProgramResources\ParentHood.cs" />
     <Compile Include="Settings\DatabaseConnectionSettings.cs" />
     <Compile Include="Settings\GeneralFunctions.cs" />
@@ -266,6 +274,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Messages\MessageForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Miscellaneous\MiscellaneousWindows\WaitMessage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

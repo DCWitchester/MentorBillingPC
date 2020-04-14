@@ -5,8 +5,33 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MentorBilling.Controller"
         mc:Ignorable="d"
-        Title="ControllerLogin" Height="450" Width="800">
-    <Grid>
-        
+Title="ClientLogin" Height="285" Width="600" WindowStartupLocation="CenterScreen" WindowStyle="None" BorderThickness="0" Cursor="Arrow" ResizeMode="NoResize" ShowInTaskbar="False">
+    <Grid Background="{StaticResource MainGradientStyle}">
+        <!--#region Title Bar-->
+        <Grid Height="60" VerticalAlignment="Top" HorizontalAlignment="Stretch" Background="#2d2d2d">
+            <Label x:Name="lblTitle" Foreground="White" Content="Login" FontSize="25" FontFamily="News Gothic MT" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+            <Ellipse Width="35" Height="35" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,10,10,0" MouseUp="CancelForm">
+                <Ellipse.Fill>
+                    <ImageBrush ImageSource="pack://Application:,,,/ProgramResources\Images\close.jpg"/>
+                </Ellipse.Fill>
+            </Ellipse>
+        </Grid>
+        <!--#region Login Grid-->
+        <Grid Background="{StaticResource MainGradientStyle}" Margin="0,60,0,0">
+            <Label  FontFamily="News Gothic MT" FontSize="13" FontWeight="DemiBold" VerticalContentAlignment="Center" Content="Nume utilizator:" Margin="10,15,475,175"/>
+            <Label  FontFamily="News Gothic MT" FontSize="13" FontWeight="DemiBold" VerticalContentAlignment="Center" Content="Parola:"          Margin="10,55,475,135"/>
+            <Label  FontFamily="News Gothic MT" FontSize="13" FontWeight="DemiBold" VerticalContentAlignment="Center" Content=""                 Margin="10,95,0,95" Foreground="Red" Visibility="Collapsed"/>
+            <TextBox FontFamily="News Gothic MT" FontSize="13" FontWeight="DemiBold" VerticalContentAlignment="Center" Margin="150,15,125,175" x:Name="tbUsername"/>
+            <TextBox FontFamily="News Gothic MT" FontSize="13" FontWeight="DemiBold" VerticalContentAlignment="Center" Margin="150,55,125,135" x:Name="tbPassword" Visibility="Collapsed"/>
+            <PasswordBox FontFamily="News Gothic MT" FontSize="13" FontWeight="DemiBold" VerticalContentAlignment="Center" Margin="150,55,125,135" x:Name="pbPassword" PasswordChar="*"/>
+            <Button Style="{StaticResource ButtonStyle}"    VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="100" Height="25" Content="Login"    Margin="-125,0,0,95"    x:Name="btnLogin" Click="LoginMainEvent"/>
+            <Button Style="{StaticResource ButtonStyle}"    VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="100" Height="25" Content="Cancel"   Margin="125,0,0,95"     x:Name="btnCancel" Click="CancelForm"/>
+            <Button Style="{StaticResource LinkButton}"     VerticalContentAlignment="Center" Content="Creare Cont Mentor"  Margin="190,155,275,45"           x:Name="lkCreateAccount" Click="CreateAccount"/>
+            <Button Style="{StaticResource LinkButton}"     VerticalContentAlignment="Center" Content="Recuperare parola"   Margin="190,185,275,15"           x:Name="lkResetPassword" Click="ResetPassword"/>
+            <Button x:Name="btnDisplayPassword" Margin="675,55,90,135" Tag="false" Click="PasswordVisibilityChange">
+                <Image x:Name="PasswordButton" Source="pack://Application:,,,/ProgramResources\Images\PassVisible.jpg"/>
+            </Button>
+        </Grid>
+        <!--#endregion-->
     </Grid>
 </Window>
