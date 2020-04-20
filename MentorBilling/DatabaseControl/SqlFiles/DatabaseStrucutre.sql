@@ -532,6 +532,19 @@ CREATE TABLE public.clienti(
 
 ALTER TABLE public.clienti OWNER TO postgres;
 
+CREATE TABLE public.clienti_stari(
+    id SERIAL NOT NULL PRIMARY KEY,
+    client_id INTEGER NOT NULL DEFAULT 0 REFERENCES public.clienti(id),
+    paltitor_tva BOOLEAN NOT NULL DEFAULT false,
+    split_tva BOOLEAN NOT NULL DEFAULT false,
+    tva_incasare BOOLEAN NOT NULL DEFAULT false,
+    societate_inactiva BOOLEAN NOT NULL DEFAULT false,
+    data_initiala timestamp without time zone NOT NULL DEFAULT ('now'::text)::timestamp without time zone,
+    data_finala timestamp without time zone NOT NULL DEFAULT ('now'::text)::timestamp without time zone   
+);
+
+ALTER TABLE public.clienti_stari OWNER TO postgres;
+
 -- Conturi Bancare --
 
 CREATE TABLE public.conturi_bancare(
