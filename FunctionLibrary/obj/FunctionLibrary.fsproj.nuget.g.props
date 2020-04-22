@@ -15,6 +15,6 @@
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <PkgNETStandard_Library Condition=" '$(PkgNETStandard_Library)' == '' ">C:\Users\DCWitchester\.nuget\packages\netstandard.library\2.0.3</PkgNETStandard_Library>
     <PkgFSharp_Core Condition=" '$(PkgFSharp_Core)' == '' ">C:\Users\DCWitchester\.nuget\packages\fsharp.core\4.7.1</PkgFSharp_Core>
-    <PkgNpgsql_FSharp Condition=" '$(PkgNpgsql_FSharp)' == '' ">C:\Users\DCWitchester\.nuget\packages\npgsql.fsharp\1.19.0</PkgNpgsql_FSharp>
+    <PkgNpgsql_FSharp Condition=" '$(PkgNpgsql_FSharp)' == '' ">C:\Users\DCWitchester\.nuget\packages\npgsql.fsharp\1.18.0</PkgNpgsql_FSharp>
   </PropertyGroup>
 </Project>

@@ -66,5 +66,111 @@ namespace MentorBilling.Messages
             //we use showDialog to await user input
             newMessage.ShowDialog();
         }
+        #region Controller Login Messages
+        /// <summary>
+        /// this message will be called to display a lack of username
+        /// </summary>
+        public static void ControllerUserNameError()
+        {
+            //we call the Reinitialization of the unload variable before launching the form.
+            MessageSettings.ReinitializeFormUnload();
+            MessageForm newMessage = new MessageForm();
+            newMessage.msgTitle.Content = "Lipsa Nume Utilizator";
+            newMessage.msgMessage.Content = "Nu ati completat numele de utilizator.";
+            //change the background image
+            newMessage.msgBackground.ImageSource = new BitmapImage(new Uri(@"pack://Application:,,," + MessageImages.errorImage));
+            //deactivate the cancel button
+            newMessage.btnCancel.Visibility = Visibility.Collapsed;
+            //recenter and set the content of the Accept button
+            newMessage.btnAccept.Margin = new Thickness(0, 0, 0, 10);
+            newMessage.btnAccept.Content = "Ok";
+            //Alters the height of the form as needed
+            newMessage.Height = newMessage.Height + MessageSettings.stringLineHeight * MessageSettings.RetriveNumberOfLinesOfString(newMessage.msgMessage.Content.ToString());
+            //We need to force focus to this form
+            newMessage.Focus();
+            //we set the message as Topmost always
+            newMessage.Topmost = true;
+            //we use showDialog to await user input
+            newMessage.ShowDialog();
+        }
+        /// <summary>
+        /// this message will be used for a missing password
+        /// </summary>
+        public static void ControllerNoPasswordError()
+        {
+            //we call the Reinitialization of the unload variable before launching the form.
+            MessageSettings.ReinitializeFormUnload();
+            MessageForm newMessage = new MessageForm();
+            newMessage.msgTitle.Content = "Lipsa Parola";
+            newMessage.msgMessage.Content = "Nu ati completat parola.";
+            //change the background image
+            newMessage.msgBackground.ImageSource = new BitmapImage(new Uri(@"pack://Application:,,," + MessageImages.errorImage));
+            //deactivate the cancel button
+            newMessage.btnCancel.Visibility = Visibility.Collapsed;
+            //recenter and set the content of the Accept button
+            newMessage.btnAccept.Margin = new Thickness(0, 0, 0, 10);
+            newMessage.btnAccept.Content = "Ok";
+            //Alters the height of the form as needed
+            newMessage.Height = newMessage.Height + MessageSettings.stringLineHeight * MessageSettings.RetriveNumberOfLinesOfString(newMessage.msgMessage.Content.ToString());
+            //We need to force focus to this form
+            newMessage.Focus();
+            //we set the message as Topmost always
+            newMessage.Topmost = true;
+            //we use showDialog to await user input
+            newMessage.ShowDialog();
+        }
+        /// <summary>
+        /// this message for a missing user
+        /// </summary>
+        public static void ControllerUserError()
+        {
+            //we call the Reinitialization of the unload variable before launching the form.
+            MessageSettings.ReinitializeFormUnload();
+            MessageForm newMessage = new MessageForm();
+            newMessage.msgTitle.Content = "Utilizator Inexistent";
+            newMessage.msgMessage.Content = "Nu exista un utilizator cu acest nume.";
+            //change the background image
+            newMessage.msgBackground.ImageSource = new BitmapImage(new Uri(@"pack://Application:,,," + MessageImages.errorImage));
+            //deactivate the cancel button
+            newMessage.btnCancel.Visibility = Visibility.Collapsed;
+            //recenter and set the content of the Accept button
+            newMessage.btnAccept.Margin = new Thickness(0, 0, 0, 10);
+            newMessage.btnAccept.Content = "Ok";
+            //Alters the height of the form as needed
+            newMessage.Height = newMessage.Height + MessageSettings.stringLineHeight * MessageSettings.RetriveNumberOfLinesOfString(newMessage.msgMessage.Content.ToString());
+            //We need to force focus to this form
+            newMessage.Focus();
+            //we set the message as Topmost always
+            newMessage.Topmost = true;
+            //we use showDialog to await user input
+            newMessage.ShowDialog();
+        }
+        /// <summary>
+        /// the error for a wrong password 
+        /// </summary>
+        public static void ControllerWrongPassword()
+        {
+            //we call the Reinitialization of the unload variable before launching the form.
+            MessageSettings.ReinitializeFormUnload();
+            MessageForm newMessage = new MessageForm();
+            newMessage.msgTitle.Content = "Parola Incorecta";
+            newMessage.msgMessage.Content = "Parola este incorecta.";
+            //change the background image
+            newMessage.msgBackground.ImageSource = new BitmapImage(new Uri(@"pack://Application:,,," + MessageImages.errorImage));
+            //deactivate the cancel button
+            newMessage.btnCancel.Visibility = Visibility.Collapsed;
+            //recenter and set the content of the Accept button
+            newMessage.btnAccept.Margin = new Thickness(0, 0, 0, 10);
+            newMessage.btnAccept.Content = "Ok";
+            //Alters the height of the form as needed
+            newMessage.Height = newMessage.Height + MessageSettings.stringLineHeight * MessageSettings.RetriveNumberOfLinesOfString(newMessage.msgMessage.Content.ToString());
+            //We need to force focus to this form
+            newMessage.Focus();
+            //we set the message as Topmost always
+            newMessage.Topmost = true;
+            //we use showDialog to await user input
+            newMessage.ShowDialog();
+        }
+        #endregion
     }
 }

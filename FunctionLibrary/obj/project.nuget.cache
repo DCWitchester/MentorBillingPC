@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "83fT/ebHmkyD8cq8b38giciWcdDVGtdqBeXnmsPs42+C1j7smTu+jinGIXPMVRyu9624lqMb/PfClziv/9Pt3w==",
+  "dgSpecHash": "C6qFk8c28MjyklK8r0PheDfjqAYon2CsrVC95wv/88V8im2IXnue6HUPp1CSyBP4Bey7PrGFltVmHeYetDPhPQ==",
   "success": true,
   "projectFilePath": "K:\\Projects\\Repository\\MentorBilling\\FunctionLibrary\\FunctionLibrary.fsproj",
   "expectedPackageFiles": [
@@ -9,7 +9,7 @@
     "C:\\Users\\DCWitchester\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
     "C:\\Users\\DCWitchester\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
     "C:\\Users\\DCWitchester\\.nuget\\packages\\npgsql\\4.1.1\\npgsql.4.1.1.nupkg.sha512",
-    "C:\\Users\\DCWitchester\\.nuget\\packages\\npgsql.fsharp\\1.19.0\\npgsql.fsharp.1.19.0.nupkg.sha512",
+    "C:\\Users\\DCWitchester\\.nuget\\packages\\npgsql.fsharp\\1.18.0\\npgsql.fsharp.1.18.0.nupkg.sha512",
     "C:\\Users\\DCWitchester\\.nuget\\packages\\system.buffers\\4.5.0\\system.buffers.4.5.0.nupkg.sha512",
     "C:\\Users\\DCWitchester\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512",
     "C:\\Users\\DCWitchester\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512",

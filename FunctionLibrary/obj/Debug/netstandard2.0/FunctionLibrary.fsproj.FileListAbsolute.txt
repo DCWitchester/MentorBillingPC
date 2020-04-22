@@ -1,0 +1,8 @@
+K:\Projects\Repository\MentorBilling\FunctionLibrary\bin\Debug\netstandard2.0\FunctionLibrary.deps.json
+K:\Projects\Repository\MentorBilling\FunctionLibrary\bin\Debug\netstandard2.0\FunctionLibrary.dll
+K:\Projects\Repository\MentorBilling\FunctionLibrary\bin\Debug\netstandard2.0\FunctionLibrary.pdb
+K:\Projects\Repository\MentorBilling\FunctionLibrary\obj\Debug\netstandard2.0\FunctionLibrary.fsprojAssemblyReference.cache
+K:\Projects\Repository\MentorBilling\FunctionLibrary\obj\Debug\netstandard2.0\FunctionLibrary.AssemblyInfoInputs.cache
+K:\Projects\Repository\MentorBilling\FunctionLibrary\obj\Debug\netstandard2.0\FunctionLibrary.AssemblyInfo.fs
+K:\Projects\Repository\MentorBilling\FunctionLibrary\obj\Debug\netstandard2.0\FunctionLibrary.dll
+K:\Projects\Repository\MentorBilling\FunctionLibrary\obj\Debug\netstandard2.0\FunctionLibrary.pdb

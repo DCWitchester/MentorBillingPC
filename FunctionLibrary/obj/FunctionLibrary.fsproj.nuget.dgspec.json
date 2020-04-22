@@ -51,7 +51,7 @@
             },
             "Npgsql.FSharp": {
               "target": "Package",
-              "version": "[1.19.0, )",
+              "version": "[1.18.0, )",
               "generatePathProperty": true
             }
           },

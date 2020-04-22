@@ -104,7 +104,7 @@
           "lib/netstandard2.0/Npgsql.dll": {}
         }
       },
-      "Npgsql.FSharp/1.19.0": {
+      "Npgsql.FSharp/1.18.0": {
         "type": "package",
         "dependencies": {
           "FSharp.Core": "4.3.4",
@@ -465,10 +465,10 @@
         "postgresql.png"
       ]
     },
-    "Npgsql.FSharp/1.19.0": {
-      "sha512": "8uv8qVF3I0rxynzK5bM3YB0Pz0YreEm/3H93ewAGJYi5Kd8Rm2vV+ed4JPXqudQ5vQj7cxon9olxBEvqrh6sLA==",
+    "Npgsql.FSharp/1.18.0": {
+      "sha512": "kyQUDNgZpV5flKpdCYxAG+wUWjY8lLmcqO0GxgS4h0VrNfhDnH53UDQe5Z/oQecyiMJTb05OGokchae3Yt9ZZg==",
       "type": "package",
-      "path": "npgsql.fsharp/1.19.0",
+      "path": "npgsql.fsharp/1.18.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -478,7 +478,7 @@
         "lib/netcoreapp3.0/Npgsql.FSharp.xml",
         "lib/netstandard2.0/Npgsql.FSharp.dll",
         "lib/netstandard2.0/Npgsql.FSharp.xml",
-        "npgsql.fsharp.1.19.0.nupkg.sha512",
+        "npgsql.fsharp.1.18.0.nupkg.sha512",
         "npgsql.fsharp.nuspec"
       ]
     },
@@ -742,7 +742,7 @@
     ".NETStandard,Version=v2.0": [
       "FSharp.Core >= 4.7.1",
       "NETStandard.Library >= 2.0.3",
-      "Npgsql.FSharp >= 1.19.0"
+      "Npgsql.FSharp >= 1.18.0"
     ]
   },
   "packageFolders": {
@@ -796,7 +796,7 @@
           },
           "Npgsql.FSharp": {
             "target": "Package",
-            "version": "[1.19.0, )",
+            "version": "[1.18.0, )",
             "generatePathProperty": true
           }
         },

@@ -17,5 +17,7 @@ namespace MentorBilling
         /// </summary>
         public static Miscellaneous.MiscellaneousWindows.WaitMessageDelegate waitMessageDelegate 
             = new Miscellaneous.MiscellaneousWindows.WaitMessageDelegate();
+
+        public static readonly String ServerConnectionString = "Host = 5.2.228.239; Port = 26662; Database = MentorClientController; User Id = postgres; Password = pgsql";
     }
 }

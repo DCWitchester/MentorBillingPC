@@ -24,6 +24,10 @@ namespace MentorBilling.Settings
         /// the licencePeriod property
         /// </summary>
         private Int32 licencePeriod = new Int32();
+        /// <summary>
+        /// the licenceID property
+        /// </summary>
+        private Int32 licenceID = new Int32();
 
         /// <summary>
         /// the getter and setter for the userID
@@ -53,12 +57,20 @@ namespace MentorBilling.Settings
         }
 
         /// <summary>
-        /// the getter and setter for thelicencePeriod
+        /// the getter and setter for the licencePeriod
         /// </summary>
         public Int32 LicencePeriod
         {
             get => licencePeriod;
             set => licencePeriod = value;
+        }
+        /// <summary>
+        /// the getter and setter for the licenceID property
+        /// </summary>
+        public Int32 LicenceID
+        {
+            get => licenceID;
+            set => licenceID = value;
         }
 
         /// <summary>
@@ -93,6 +105,9 @@ namespace MentorBilling.Settings
                     break;
                 case "LICENCE PERIOD":
                     LicencePeriod = Convert.ToInt32(settingString.Split('=')[1].Trim().ToUpper());
+                    break;
+                case "LICENCE ID":
+                    LicenceID = Convert.ToInt32(settingString.Split('=')[1].Trim().ToUpper());
                     break;
             }
         }

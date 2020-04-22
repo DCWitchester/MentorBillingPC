@@ -4,7 +4,7 @@ open System
 open Npgsql.FSharp
 open Npgsql.FSharp.OptionWorkflow
 
-module DatabaseConection =
+module DatabaseConnection =
 
     //the qualifier acces entrace
     [<RequireQualifiedAccess>]
@@ -53,14 +53,40 @@ module DatabaseConection =
 module ControllerFunctions =
 
     module DatabaseObjects = 
-        type Licence ={
-            UserID : Int32
-            LicenceUpdate : String
-            LicencePeriod : String
-            ProgramID : Int32
+        type LicenceValidator = {
+            username : String
+            password : String
+            version : String
+            programCode : Int32
             }
+
+        type Licence = {
+            LicenceID : Int32
+            UserID : Int32
+            LicenceUpdate : DateTime
+            LicencePeriod : Int32
+        }
     
-    let verifyUser(connectionString : Sql.ConnectionStringBuilder, username : String, password : String) : bool = 
+    let verifyUser(connectionString : Sql.ConnectionStringBuilder, username : String) : bool = 
+        connectionString
+        |> Sql.connectFromConfig
+        |> Sql.query "SELECT COUNT(*) 
+                        FROM clienti
+                        WHERE nume_utilizator = @username"
+        |> Sql.parameters
+            [
+                "username", Sql.Value username
+            ]
+        |> Sql.prepare
+        |> Sql.executeScalar
+        |> Sql.toInt
+        |> function
+            | value -> 
+                if(value>(int32 0))
+                    then true
+                    else false
+
+    let verifyPassword(connectionString : Sql.ConnectionStringBuilder, username : String, password : String) : bool = 
         connectionString
         |> Sql.connectFromConfig
         |> Sql.query "SELECT COUNT(*) 
@@ -80,7 +106,54 @@ module ControllerFunctions =
                     then true
                     else false
 
-    let retrieveUserLicence(connectionString : Sql.ConnectionStringBuilder, licence : DatabaseObjects.Licence, programCode: String) = 
+    let checkActivLicence(connectionString : Sql.ConnectionStringBuilder,  licence: DatabaseObjects.LicenceValidator) : Boolean = 
         connectionString
         |> Sql.connectFromConfig
-        |> Sql.query "SELECT clienti.id"
+        |> Sql.query "SELECT (licente.data_actualizare + (licente.perioada::VARCHAR || ' months')::INTERVAL) > 'now'::TIMESTAMP WITHOUT TIME ZONE 
+                        FROM licente LEFT JOIN clienti_versiuni ON licente.clienti_versiuni_id = clienti_versiuni.id
+                                    LEFT JOIN clienti ON clienti_versiuni.clienti_id = clienti.id
+                                    LEFT JOIN versiuni ON clienti_versiuni.versiuni_id = versiuni.id
+                                    LEFT JOIN programe ON versiuni.programe_id = programe.id
+                        WHERE clienti.nume_utilizator = @username AND (clienti.parola = @password OR clienti.parola_autogenerata = @password)
+                                AND programe.cod_program = @programCode 
+                                AND versiuni.versiune = @version"
+        |> Sql.parameters
+            [
+                "username", Sql.Value licence.username
+                "password", Sql.Value licence.password
+                "programCode", Sql.Value licence.programCode
+                "version", Sql.Value licence.version
+            ]
+        |> Sql.prepare
+        |> Sql.executeScalar
+        |> Sql.toBool
+
+    let retreiveLicence(connectionString : Sql.ConnectionStringBuilder, licence : DatabaseObjects.LicenceValidator) : DatabaseObjects.Licence list =
+        connectionString
+        |> Sql.connectFromConfig
+        |> Sql.query "SELECT licente.data_actualizare, licente.perioada, clienti.id AS client_id, licente.id AS licenta_id
+                        FROM licente LEFT JOIN clienti_versiuni ON licente.clienti_versiuni_id = clienti_versiuni.id
+                                    LEFT JOIN clienti ON clienti_versiuni.clienti_id = clienti.id
+                                    LEFT JOIN versiuni ON clienti_versiuni.versiuni_id = versiuni.id
+                                    LEFT JOIN programe ON versiuni.programe_id = programe.id
+                        WHERE clienti.nume_utilizator = @username AND (clienti.parola = @password OR clienti.parola_autogenerata = @password)
+                                AND programe.cod_program = @programCode 
+                                AND versiuni.versiune = @version"
+        |> Sql.parameters
+            [
+                "username", Sql.Value licence.username
+                "password", Sql.Value licence.password
+                "programCode", Sql.Value licence.programCode
+                "version", Sql.Value licence.version
+            ]
+        |> Sql.prepare
+        |> Sql.executeTable
+        |> Sql.mapEachRow (fun row ->
+                option {
+                    let! licenceID = Sql.readInt "licenta_id" row
+                    let! userID = Sql.readInt "client_id" row
+                    let! licenceUpdate = Sql.readDate "data_actualizare" row
+                    let! licencePeriod = Sql.readInt "perioada" row
+                    return { LicenceID = licenceID; UserID = userID; LicenceUpdate = licenceUpdate; LicencePeriod = licencePeriod }
+                })
+        
